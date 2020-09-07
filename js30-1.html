@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
+    <style>
+        :root{ /*放css變數*/  
+            --base:#ffd950;
+            --spacing:10px;
+            --blur:10px;
+        }
+
+        img{
+            padding: var(--spacing);
+            background: var(--base);
+            filter:blur(var(--blur)); /* blur -> 高斯模糊 */ 
+        }
+
+        body{
+            text-align: center;
+            background: #ffc4f5;
+            color: rgb(183, 110, 231);
+            font-size: 50px;
+            font-family: 'Shrikhand', cursive;
+        }
+
+        
+
+        .controls{
+            margin-bottom: 50px;
+        }
+
+        input{
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+   <div class="controls">
+       <label for='spacing'>Spacing:</label>
+       <input type="range" id='spacing' name='spacing' min='0' max='200' value='10' data-sizing='px'>
+   
+       <label for='blur'>Blur:</lable>
+       <input type='range' id='blur' name='blur' min='0' max='25' value='10' data-sizing="px">
+    
+        <label for='base'>Base Color</label>
+        <input id='base' type='color' name='base' value='#ffc600'>
+    </div> 
+
+    <img src="https://66.media.tumblr.com/0b8288ae1420f19b397fa7c8b9d0d75c/tumblr_ozq7kdA8mk1u7gnm9o1_500.gifv">
+
+    <script>
+        const inputs = document.querySelectorAll('input')
+        console.log(inputs)
+        function handleUpate(){
+            const suffix = this.dataset.sizing || '';
+            console.log(suffix)
+            document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix)
+        }
+
+        inputs.forEach(input => input.addEventListener('change', handleUpate))
+        inputs.forEach(input => input.addEventListener('mousemove', handleUpate))
+    </script>
+</body>
+</html>
