@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 固定定位（position: fixed）的元素會相對於瀏覽器視窗來定位，這意味著即便頁面捲動，它還是會固定在相同的位置 */
+        /* transition 讓你可以定義元件在兩個狀態之間切換的轉場效果 */
+        .fullpage-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #fff;
+            opacity: 1;
+            transition: opacity .5s;
+            z-index: 1000;
+        }
+
+        .fullpage-loader-logo {
+            position: relative;
+        }
+
+        .fullpage-loader-logo::after {
+            content: '';
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: shine 2.5s infinite cubic-bezier(0.42, 0, 0.58, 1);
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1)50%, rgba(255, 255, 255, 0) 100%);
+        }
+
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) skew(-30deg);
+            }
+
+            100% {
+                transform: translateX(200%) skew(-30deg);
+            }
+        }
+
+        body {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .fullpage-loader-invisible {
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="fullpage-loader">
+        <div class="fullpage-loader-logo">
+            <img src="data:image/png;base64,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"
+                alt="">
+        </div>
+    </div>
+    <img src="http://deelay.me/5000 /https://images.pexels.com/photos/1850030/pexels-photo-1850030.jpeg?cs=srgb&dl=beautiful-clouds-landscape-1850030.jpg&fm=jpg" width="100px" alt="">
+    <p>^ this image is will take 5 seconds to load</p>
+    <p>this is only here to show that the javascript works</p>
+
+    <h2>How this works</h2>
+    <p>The javascript grabs the <code>fullpage-loader</code> element as the variable <code>loaderEl</code> and then
+        listens to the document 'readystatechange' event.</p>
+    <p>When the <code>document.readyState</code> is equal to the user declared <code>readyState</code> variable ex:
+        'loading' or 'interactive' or 'complete' it then runs the code inside the if statement.</p>
+    <p>The code inside the if statement adds another CSS class that sets the opacity to 0. The CSS has a .5s transition
+        on opacity so it will fade to 0 nicely. After 2000 milliseconds the <code>loaderEl</code> is removed from the
+        DOM.</p>
+
+    <h2>How to use this</h2>
+    <p>I recommend placing all the HTML, CSS, and JS in the same place since this is going to be used as a "page loader"
+        it falls under the practice of "critical resources" or as its most often refered to as "critical CSS".</p>
+
+    <p>The HTML, CSS, and JS all need to be as close to the <code>head</code> of the webpage so that they load and
+        appear before anything else, hence the "loading" aspect of it.</p>
+
+    <h2>Base 64, and why</h2>
+    <p>The loading image, if you choose to use one, should be converted to base64 and inlined as an img tag's src.</p>
+    <p>The reason for using base64 is that it allows the website to immediatly have the data for the image without
+        having to make another network call and thus being forced to load the image.</p>
+    <p>The whole point is that the loader is supposed to be visible while the page loads other things! We don't want to
+        have to load the loader!</p>
+
+    <p>While technically the image size of the base64 version of the image is slightly larger than say the .png or .gif
+        version of the image, the size difference is negligible and won't cause the initial page load to hindered
+        dramatically</p>
+    <img src="images/pic01.jpg" width="100%" alt="">    
+    
+    <script>
+        const loaderEl = document.getElementsByClassName('fullpage-loader')[0];
+
+        //addEventListener監聽事件
+        //readystate 加載狀態  / readystatechange加載狀態發生改變
+        document.addEventListener('readystatechange', (even) => {
+            const readyState = 'complete'  //complete(完成) 文檔和所有子資源都加載完成 表示load狀態的事件即將被處發
+
+            if (document.readyState === readyState) {
+                loaderEl.classList.add('fullpage-loader-invisible')
+
+                setTimeout(() => {
+                    loaderEl.parentNode.removeChild(loaderEl); //parentNode屬性返回指定節點的父節點作為Node對象
+                    //Node.removeChild() 方法從 DOM 移除一個子節點，並傳回移除的節點
+                }, 2000)
+            }
+        })
+    </script>
+</body>
+
+</html>
